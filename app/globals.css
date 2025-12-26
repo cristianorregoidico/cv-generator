@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -12,15 +12,83 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme="slate"] {
+  --accent: #334155;
+  --accent-soft: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+  --background: #f8fafc;
+}
+
+[data-theme="teal"] {
+  --accent: #0f766e;
+  --accent-soft: #cffafe;
+  --text: #062925;
+  --muted: #0f766e;
+  --background: #ecfeff;
+}
+
+[data-theme="rose"] {
+  --accent: #be123c;
+  --accent-soft: #ffe4e6;
+  --text: #3f0a1a;
+  --muted: #e11d48;
+  --background: #fff1f2;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pill {
+  border-radius: 9999px;
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.cv-page {
+  width: 210mm;
+  min-height: 297mm;
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--accent-soft);
+}
+
+.cv-section {
+  break-inside: avoid;
+}
+
+.shadow-print {
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.22),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+@page {
+  size: A4;
+  margin: 20mm;
+}
+
+@media print {
+  :root {
+    --background: #ffffff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .cv-page {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+  }
 }

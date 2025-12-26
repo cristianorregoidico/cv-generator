@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Developer CV Generator
+
+Next.js (App Router) app for building print-perfect developer CVs. The experience mirrors the web preview when printed to PDF. Data is saved as JSON on the filesystem for simplicity—no accounts or databases required.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How It Works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Landing page (`/`) with CTA to start building.
+- Builder (`/builder`) contains the form-based editor, JSON import/export, and full-screen preview overlay (hidden until you click **Preview CV**).
+- Save sends a POST to `/api/cv`, writing JSON to `data/cv/<slug>.json` and returning the slug.
+- Public CV route (`/cv/[slug]`) reads the stored JSON and renders the same template ready for printing.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Filesystem Persistence
 
-## Learn More
+- Storage directory: `data/cv/`
+- Each save writes `<slug>.json`. Slugs are generated from the full name with a numeric suffix when needed.
+- Utilities: `lib/storage.ts`, `lib/slugify.ts`, `lib/readJsonFile.ts`, `lib/validateOrMigrateCvJson.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+### Printing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Preview overlay centers the A4 CV; click **Print** from the overlay or the public CV bar.
+- `@page` is set to `A4` with `20mm` margins; sections use `break-inside: avoid` for clean page breaks.
+- Controls and chrome use the `no-print` class so only the CV renders on paper/PDF.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Themes
 
-## Deploy on Vercel
+- Three built-in palettes: Slate (default), Teal, Rose.
+- Theme variables (`--accent`, `--text`, `--muted`, `--background`) are applied via `data-theme` on the template.
+- Accent color can be overridden per CV. Add a new theme by updating `lib/themes.ts` and the selectors in `components/ThemeSelector.tsx` plus the CSS tokens in `app/globals.css`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### JSON Import/Export
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Download the full CV (including base64 photo and theme) with **Download JSON**.
+- Upload a JSON file in the builder; `validateOrMigrateCvJson` normalizes/guards the payload before populating the editor.
+
+## Printing to PDF
+
+1. Open `/builder`, click **Preview CV**.
+2. In the overlay, click **Print** (or open `/cv/<slug>` and print from there).
+3. In the browser print dialog select **Save as PDF**, keep A4 and default margins for the closest match.
+
+## Scripts
+
+- `npm run dev` – start the dev server.
+- `npm run lint` – lint the project.
+- `npm run build` / `npm start` – production build and serve.

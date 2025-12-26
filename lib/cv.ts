@@ -1,0 +1,137 @@
+export type ThemeName = "slate" | "teal" | "rose";
+
+export interface CvLinks {
+  linkedin: string;
+  github: string;
+  website: string;
+}
+
+export interface CvProfile {
+  fullName: string;
+  role: string;
+  location: string;
+  email: string;
+  phone: string;
+  about: string;
+  links: CvLinks;
+  photo?: string; // base64 data URL
+}
+
+export interface ExperienceItem {
+  company: string;
+  role: string;
+  start: string;
+  end: string;
+  bullets: string[];
+}
+
+export interface EducationItem {
+  school: string;
+  degree: string;
+  start: string;
+  end: string;
+  details: string;
+}
+
+export interface ProjectItem {
+  name: string;
+  link: string;
+  description: string;
+  highlights: string[];
+  tech: string[];
+}
+
+export interface CvData {
+  profile: CvProfile;
+  experience: ExperienceItem[];
+  education: EducationItem[];
+  projects: ProjectItem[];
+  skills: string[];
+  languages: string[];
+  certifications: string[];
+  theme: ThemeName;
+  accentColor?: string;
+}
+
+export const defaultCv: CvData = {
+  profile: {
+    fullName: "Alex Deverson",
+    role: "Senior Full-Stack Engineer",
+    location: "Remote • UTC-5",
+    email: "alex.deverson@example.com",
+    phone: "+1 (555) 012-3456",
+    about:
+      "Full-stack engineer focused on DX, design systems, and resilient cloud architectures. Pragmatic collaborator who ships quickly with quality.",
+    links: {
+      linkedin: "https://linkedin.com/in/alex-deverson",
+      github: "https://github.com/alexdeverson",
+      website: "https://alex.dev",
+    },
+    photo: undefined,
+  },
+  experience: [
+    {
+      company: "Northwind Labs",
+      role: "Lead Software Engineer",
+      start: "2021",
+      end: "Present",
+      bullets: [
+        "Architected a design system and component library adopted by 6 product teams, cutting UI build time by 40%.",
+        "Led migration to Next.js and edge rendering, improving TTFB by 28% and Lighthouse performance to 95+.",
+        "Built developer tooling (lint rules, codemods, CI templates) that reduced PR cycle time by 25%.",
+      ],
+    },
+    {
+      company: "Acme Cloud",
+      role: "Senior Frontend Engineer",
+      start: "2018",
+      end: "2021",
+      bullets: [
+        "Delivered multi-tenant dashboards with role-based access and offline sync for 50k+ monthly active users.",
+        "Created reusable data visualization toolkit with D3/React, decreasing bespoke chart code by 60%.",
+        "Partnered with product and research to launch A/B tested onboarding that increased activation by 18%.",
+      ],
+    },
+  ],
+  education: [
+    {
+      school: "State University",
+      degree: "B.S. Computer Science",
+      start: "2014",
+      end: "2018",
+      details: "Focus on human-computer interaction and distributed systems.",
+    },
+  ],
+  projects: [
+    {
+      name: "CodeAtlas",
+      link: "https://codeatlas.dev",
+      description: "Interactive repository insights with semantic search and dependency maps.",
+      highlights: ["Team lead", "Design system", "Performance"],
+      tech: ["Next.js", "TypeScript", "Tailwind", "GraphQL", "PostgreSQL"],
+    },
+    {
+      name: "DeployCraft",
+      link: "https://deploycraft.io",
+      description: "Self-serve deployment workflows with guardrails, previews, and rollout metrics.",
+      highlights: ["Edge-ready", "Multi-cloud", "DX tooling"],
+      tech: ["Node.js", "tRPC", "Redis", "Terraform"],
+    },
+  ],
+  skills: [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Design Systems",
+    "Tailwind CSS",
+    "Testing",
+    "CI/CD",
+    "AWS",
+    "Edge Rendering",
+  ],
+  languages: ["English (native)", "Spanish (conversational)"],
+  certifications: ["AWS Certified Solutions Architect"],
+  theme: "slate",
+  accentColor: undefined,
+};
